@@ -29,6 +29,7 @@ tools: Read, Write, Edit, Bash, Glob, Grep
 | **name** | Да | string | Уникальный ID, lowercase + дефисы (напр. `code-reviewer`) |
 | **description** | Да | string | Описание **когда** Claude должен делегировать задачу. Claude читает это чтобы решить, подходит ли агент |
 | **model** | Нет | string | Модель: `sonnet`, `opus`, `haiku`, полный ID (`claude-opus-4-6`), или `inherit`. По умолчанию: `inherit` |
+| **color** | Нет | string | Цвет агента в UI: `blue`, `red`, `green`, `yellow`, `purple`, `orange` или hex `#3B82F6`. Не задокументирован официально, но поддерживается ([issue #19292](https://github.com/anthropics/claude-code/issues/19292)) |
 | **tools** | Нет | comma-separated | Разрешённые инструменты. Если не указано — наследует ВСЕ от родителя (включая MCP) |
 | **disallowedTools** | Нет | comma-separated | Запрещённые инструменты (убирает из наследованных) |
 | **maxTurns** | Нет | integer | Макс. количество шагов агента |
@@ -210,5 +211,28 @@ isolation: worktree
 
 ---
 
+---
+
+## Недокументированные фичи (из community + GitHub issues)
+
+### `color` — цвет агента в UI
+Поддерживается, но не в официальной документации ([issue #19292](https://github.com/anthropics/claude-code/issues/19292)).
+UI `/agents` предлагает "Choose a color for the subagent". Доступные значения: `blue`, `red`, `green`, `yellow`, `purple`, `orange` или hex (`#3B82F6`).
+
+### `icon` — иконка агента
+Запрошен в [issue #21501](https://github.com/anthropics/claude-code/issues/21501), статус: closed (duplicate). Возможно в будущих версиях.
+
+### Default agent для основного чата
+Можно установить агента по умолчанию для main conversation:
+- В `settings.json`: поле `"agent"`
+- Через CLI: флаг `--agent`
+- Источник: Boris Cherny (Anthropic), Threads, 2026-02-11
+
+### `cwd` / `additionalDirectories` — scoping директорий
+Запрошен в [issue #31940](https://github.com/anthropics/claude-code/issues/31940), статус: open. Пока не поддерживается — субагенты наследуют cwd родителя.
+
+---
+
 **Создано:** 2026-03-16
-**Источник:** Claude Code docs + X0 Framework conventions
+**Обновлено:** 2026-03-16
+**Источник:** Claude Code docs + X0 Framework + Exa search (GitHub issues, community)

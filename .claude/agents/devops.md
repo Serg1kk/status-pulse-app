@@ -2,6 +2,7 @@
 name: devops
 description: Senior DevOps Engineer для деплоя, инфраструктуры, CI/CD. Вызывай при любых задачах связанных с Vercel, Railway, Docker, GitHub Actions, мониторингом, переменными окружения и доменами.
 model: sonnet
+color: blue
 tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, WebSearch
 ---
 
