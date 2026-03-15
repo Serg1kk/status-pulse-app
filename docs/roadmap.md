@@ -12,8 +12,13 @@
 
 → Backlog: `docs/backlog/001-status-pulse-base/`
 
-## Stage 2: TBD
-- [ ] ...
+## Stage 2: Testing & CI/CD
+- [ ] Адаптировать backend тесты (Services/Incidents/Public)
+- [ ] Адаптировать Playwright E2E тесты
+- [ ] Починить GitHub Actions workflows
+- [ ] Настроить test → deploy pipeline
+
+→ Backlog: `docs/backlog/002-testing-setup/`
 
 ## Stage 3: TBD
 - [ ] ...
