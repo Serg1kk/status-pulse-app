@@ -4,6 +4,9 @@ description: Senior DevOps Engineer для деплоя, инфраструкт�
 model: sonnet
 color: blue
 tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, WebSearch
+mcpServers:
+  - vercel
+  - railway
 ---
 
 # DevOps Agent
