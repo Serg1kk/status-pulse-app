@@ -100,3 +100,91 @@ Linters: ruff (Python), biome (frontend). Both run via prek on commit.
 ## Environment
 
 Root `.env` holds shared config (domain, secrets, DB passwords). Frontend `.env` has `VITE_API_URL`. Backend reads config through Pydantic Settings. Critical values to change before deploy: `SECRET_KEY`, `FIRST_SUPERUSER_PASSWORD`, `POSTGRES_PASSWORD`.
+
+## Docs Structure
+
+```
+docs/
+├── roadmap.md                        ← Общий roadmap проекта (stages, приоритеты)
+├── backlog/                          ← Фичи проекта (каждая в своей папке)
+│   ├── 001-status-pulse-base/        ← Фича 1: базовый MVP
+│   │   ├── design.md                 ← Архитектура и дизайн-решения
+│   │   └── plan.md                   ← Пошаговый план имплементации
+│   ├── 002-next-feature/             ← Фича 2: ...
+│   │   ├── design.md
+│   │   └── plan.md
+│   └── ...
+├── help/                             ← Справочная документация
+│   ├── subagent-frontmatter-reference.md  ← Формат субагентов Claude Code
+│   └── mcp-vs-cli/                   ← MCP vs CLI исследования
+│       └── railway-mcp-vs-cli.md
+└── manifests/                        ← Манифесты агентов (из X0 Framework)
+    └── agents/
+        ├── devops.md                 ← Детальный воркфлоу DevOps
+        └── devops.yaml              ← Метаданные DevOps
+```
+
+**ПРАВИЛО для superpowers skills (brainstorming, writing-plans и т.д.):**
+- Дизайны и планы создавать **внутри фичи** в `docs/backlog/NNN-feature-name/`
+- Нумерация фичей: `001`, `002`, `003` и т.д.
+- Каждая фича содержит: `design.md` (brainstorming → дизайн) + `plan.md` (writing-plans → план)
+- **НЕ** создавать файлы напрямую в `docs/` или `docs/plans/`
+- Roadmap (`docs/roadmap.md`) ссылается на фичи в backlog
+
+## Subagents (`.claude/agents/`)
+
+Субагенты — специализированные AI-агенты для конкретных задач. Файлы `.md` с YAML frontmatter.
+
+### Активные субагенты
+
+| Агент | Файл | Когда вызывать |
+|-------|------|----------------|
+| **devops** | `.claude/agents/devops.md` | Деплой, инфраструктура, CI/CD, Railway, Vercel |
+
+### Правило вызова
+
+**ВСЕГДА вызывай субагента** через Agent tool когда задача попадает в его зону ответственности:
+- Деплой на Vercel/Railway → `devops`
+- Настройка переменных окружения → `devops`
+- CI/CD, GitHub Actions → `devops`
+- Мониторинг, домены → `devops`
+
+### Добавление нового агента из X0 Framework
+
+Источник: `https://github.com/Serg1kk/X0-Framework`
+
+```bash
+# Шаг 1: Скопировать промпт агента (адаптировать под проект!)
+# X0: .x0/agents/prompts/core/<agent>.md → Проект: .claude/agents/<agent>.md
+# ВАЖНО: добавить правильный frontmatter (name, description, model, tools)
+
+# Шаг 2: Скопировать манифесты
+# X0: .x0/agents/manifests/core/<agent>.md  → Проект: docs/manifests/agents/<agent>.md
+# X0: .x0/agents/manifests/core/<agent>.yaml → Проект: docs/manifests/agents/<agent>.yaml
+
+# Шаг 3: Обновить таблицу субагентов в этом CLAUDE.md
+# Шаг 4: Записать в status-process.md
+```
+
+Доступные агенты в X0 Framework (core): `developer`, `devops`, `qa-engineer`, `researcher`, `technical-architect`, `implementation-plan-architect`, `implementation-plan-reviewer`, `feature-documentation-writer`
+
+Справочник по frontmatter субагентов: `docs/help/subagent-frontmatter-reference.md`
+
+## Deployment
+
+- **Frontend** → Vercel (static Vite build, CDN)
+- **Backend** → Railway (FastAPI + PostgreSQL, persistent processes)
+- **MCP серверы:** Vercel MCP + Railway MCP подключены локально (см. `.mcp.json`)
+
+## Tracking Changes (status-process.md)
+
+**ОБЯЗАТЕЛЬНО:** Все инфраструктурные изменения трекать в `status-process.md` (корень проекта):
+
+- Настройка и изменения деплоя (Vercel, Railway)
+- Добавление/удаление/настройка MCP серверов
+- Создание/изменение скиллов (`.claude/skills/`)
+- Добавление/изменение команд (`.claude/commands/`)
+- Добавление/удаление агентов
+- Изменения в CI/CD, Docker, инфраструктуре
+
+Формат записи: `[YYYY-MM-DD] action — description`
