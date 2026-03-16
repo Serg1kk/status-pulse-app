@@ -33,4 +33,4 @@ FastAPI Full-Stack Template включает полный auth flow: signup, log
 - Нельзя добавить юзера без доступа к API/админке
 - Нет self-service восстановления пароля (нужно сбрасывать вручную)
 
-**Реализация:** `docs/backlog/003-frontend-customization/`
+**Реализация:** `docs/backlog/active/003-frontend-customization/`

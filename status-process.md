@@ -41,7 +41,8 @@
    - `docs/roadmap.md` — roadmap проекта
    - `docs/conventions/` — конвенции по доменам (git, testing, devops)
    - `docs/ADR/` — Architecture Decision Records (4 записи)
-   - `docs/backlog/` — фичи (001-base, 002-testing, 003-frontend)
+   - `docs/backlog/active/` — текущие фичи (002-testing, 003-frontend)
+   - `docs/backlog/archived/` — завершённые фичи (001-base)
    - `docs/help/` — справочники (subagent frontmatter, MCP vs CLI, agent manifests, adaptation guide)
    - `docs/agent-learnings/` — лог ошибок агентов
    - `docs/manifests/` — манифесты агентов (адаптированные под проект)
@@ -116,3 +117,4 @@
 | 2026-03-16 | CLAUDE.md | Секция Conventions & ADR, логика работы агентов с conventions/ADR |
 | 2026-03-16 | Agent updated | DevOps промпт + манифест обновлены: ссылки на conventions/ADR |
 | 2026-03-16 | Git cleanup | git push origin master; удалены все remote ветки кроме master (13 веток: dependabot/* + feature ветки) |
+| 2026-03-16 | Backlog restructure | Разделение на `active/` и `archived/`; 001-base → archived, 002/003 → active; логика workflow в CLAUDE.md |

@@ -10,7 +10,7 @@
 - [x] Background health checker
 - [x] Деплой на Vercel + Railway
 
-→ Backlog: `docs/backlog/001-status-pulse-base/`
+→ Backlog: `docs/backlog/archived/001-status-pulse-base/`
 
 ## Stage 2: Testing & CI/CD
 - [ ] Адаптировать backend тесты (Services/Incidents/Public)
@@ -18,7 +18,7 @@
 - [ ] Починить GitHub Actions workflows
 - [ ] Настроить test → deploy pipeline
 
-→ Backlog: `docs/backlog/002-testing-setup/`
+→ Backlog: `docs/backlog/active/002-testing-setup/`
 
 ## Stage 3: TBD
 - [ ] ...
