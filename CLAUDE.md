@@ -252,6 +252,19 @@ mv docs/backlog/active/NNN-feature/ docs/backlog/archived/
 - CI/CD, GitHub Actions → `devops`
 - Мониторинг, домены → `devops`
 
+### Git-операции — ТОЛЬКО через DevOps
+
+**⛔ АБСОЛЮТНЫЙ ЗАПРЕТ:** НЕ выполнять `git commit`, `git push`, `git tag` и любые мутирующие git-команды напрямую из основного контекста.
+
+**ВСЕГДА делегируй DevOps-субагенту** через `Agent tool` с `subagent_type="devops"`:
+- Любой коммит (docs, frontend, backend, конфиги — без исключений)
+- Любой push
+- Создание веток, тегов, PR
+
+**Единственное исключение:** `git status`, `git log`, `git diff` (read-only команды) можно выполнять напрямую для анализа.
+
+**Почему:** DevOps-агент знает конвенции коммитов, проверяет секреты, обновляет `status-process.md`. Единая точка ответственности за git-операции исключает ошибки.
+
 ### Добавление нового агента (из X0 Framework или самостоятельно)
 
 Источник X0: `https://github.com/Serg1kk/X0-Framework`

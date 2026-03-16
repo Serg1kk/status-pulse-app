@@ -118,3 +118,5 @@
 | 2026-03-16 | Agent updated | DevOps промпт + манифест обновлены: ссылки на conventions/ADR |
 | 2026-03-16 | Git cleanup | git push origin master; удалены все remote ветки кроме master (13 веток: dependabot/* + feature ветки) |
 | 2026-03-16 | Backlog restructure | Разделение на `active/` и `archived/`; 001-base → archived, 002/003 → active; логика workflow в CLAUDE.md |
+| 2026-03-16 | CLAUDE.md | Секция "Git-операции — ТОЛЬКО через DevOps": абсолютный запрет git-мутаций из основного контекста, делегирование DevOps-субагенту |
+| 2026-03-16 | Docs added | `docs/help/skill-creator-vs-writing-skills.md` — справочник по различиям skill-creator и writing-skills |
