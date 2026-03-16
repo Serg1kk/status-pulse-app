@@ -136,3 +136,4 @@
 | 2026-03-16 | Agent added | Frontend Developer из X0 Framework (core/developer + typescript-developer merged, адаптирован под React 19 + Vite 7 + TanStack + shadcn/ui). Субагент. Промпт + манифесты |
 | 2026-03-16 | Agent added | Backend Developer из X0 Framework (core/developer + python-developer merged, адаптирован под FastAPI + SQLModel + uv + pytest). Субагент. Промпт + манифесты |
 | 2026-03-16 | CLAUDE.md | Обновлена секция Subagents: frontend-developer + backend-developer добавлены в таблицу, правила вызова, docs structure |
+| 2026-03-16 | Git commit | feat(infra): add Frontend Developer and Backend Developer agents (e93983e) — 2 субагента из X0 Framework, манифесты, CLAUDE.md update, session history |
