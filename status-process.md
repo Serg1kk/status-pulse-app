@@ -130,3 +130,4 @@
 | 2026-03-16 | Agent added | Implementation Plan Reviewer из X0 Framework (адаптирован). Субагент через Agent tool. Quality gate для планов. Промпт + манифесты |
 | 2026-03-16 | CLAUDE.md | Обновлена секция Subagents: architect (роль) + reviewer (субагент), правила вызова, docs structure |
 | 2026-03-16 | Git commit | feat(infra): add Implementation Plan Architect + Reviewer agents — агенты из X0 Framework, манифесты, CLAUDE.md update |
+| 2026-03-16 | Git commit | docs(backlog): restructure 003-frontend-customization + session history (e23b4b3) — readme.md + visual-design-spec.md вместо design.md + plan.md, session history с исправленным timestamp |
