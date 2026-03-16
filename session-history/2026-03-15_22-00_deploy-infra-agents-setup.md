@@ -1,5 +1,5 @@
 ---
-date: 2026-03-16
+date: 2026-03-15
 time: "22:00"
 duration_approx: ~3h
 participants: user + claude

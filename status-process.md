@@ -83,6 +83,7 @@
 | Агент | Файл | Источник |
 |-------|------|----------|
 | DevOps | `.claude/agents/devops.md` | X0 Framework (адаптирован) |
+| Designer | `.claude/agents/designer.md` | X0 Framework (core + specialized/design merged, адаптирован) |
 
 ---
 
@@ -120,3 +121,5 @@
 | 2026-03-16 | Backlog restructure | Разделение на `active/` и `archived/`; 001-base → archived, 002/003 → active; логика workflow в CLAUDE.md |
 | 2026-03-16 | CLAUDE.md | Секция "Git-операции — ТОЛЬКО через DevOps": абсолютный запрет git-мутаций из основного контекста, делегирование DevOps-субагенту |
 | 2026-03-16 | Docs added | `docs/help/skill-creator-vs-writing-skills.md` — справочник по различиям skill-creator и writing-skills |
+| 2026-03-16 | Design system | `docs/design-system.md` — дизайн-бук проекта (Dreams Timer ref, OKLCH, Plus Jakarta Sans, dark sidebar) |
+| 2026-03-16 | Agent added | Designer субагент из X0 Framework (core + specialized/design merged, адаптирован). Использует `document-skills:frontend-design` skill |

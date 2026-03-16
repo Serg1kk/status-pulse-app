@@ -155,10 +155,13 @@ docs/
 │   ├── agent-manifest-adaptation-guide.md ← Гайд по адаптации манифестов
 │   └── mcp-vs-cli/                   ← MCP vs CLI исследования
 │       └── railway-mcp-vs-cli.md
+├── design-system.md                  ← Дизайн-бук (цвета, типографика, компоненты)
 ├── manifests/                        ← Манифесты агентов (адаптированные)
 │   └── agents/
 │       ├── devops.md                 ← Детальный воркфлоу DevOps
-│       └── devops.yaml              ← Метаданные DevOps
+│       ├── devops.yaml              ← Метаданные DevOps
+│       ├── designer.md              ← Детальный воркфлоу Designer
+│       └── designer.yaml            ← Метаданные Designer
 └── agent-learnings/                  ← Лог ошибок и workaround-ов агентов
     └── README.md
 ```
@@ -240,17 +243,46 @@ mv docs/backlog/active/NNN-feature/ docs/backlog/archived/
 
 ### Активные субагенты
 
-| Агент | Файл | Когда вызывать |
-|-------|------|----------------|
-| **devops** | `.claude/agents/devops.md` | Деплой, инфраструктура, CI/CD, Railway, Vercel |
+| Агент | Файл | Режим | Когда вызывать |
+|-------|------|-------|----------------|
+| **devops** | `.claude/agents/devops.md` | Субагент (Agent tool) | Деплой, инфраструктура, CI/CD, Railway, Vercel |
+| **designer** | `.claude/agents/designer.md` | **Роль** (основной агент) | UI/UX, брендинг, дизайн-система, brainstorming визуала |
 
 ### Правило вызова
 
 **ВСЕГДА вызывай субагента** через Agent tool когда задача попадает в его зону ответственности:
-- Деплой на Vercel/Railway → `devops`
-- Настройка переменных окружения → `devops`
-- CI/CD, GitHub Actions → `devops`
-- Мониторинг, домены → `devops`
+- Деплой на Vercel/Railway → `devops` (Agent tool, субагент)
+- Настройка переменных окружения → `devops` (Agent tool, субагент)
+- CI/CD, GitHub Actions → `devops` (Agent tool, субагент)
+- Мониторинг, домены → `devops` (Agent tool, субагент)
+
+### Designer — режим РОЛИ (не субагент!)
+
+**⚠️ Designer НЕ вызывается как субагент.** Основной агент входит в роль designer:
+
+1. Прочитай `.claude/agents/designer.md` — прими на себя роль, контекст, принципы
+2. Прочитай `docs/design-system.md` — загрузи дизайн-систему
+3. Вызови два скилла:
+   - `Skill: superpowers:brainstorming` — для интерактивного brainstorming с пользователем
+   - `Skill: document-skills:frontend-design` — для Anthropic Design Philosophy
+4. Работай интерактивно с пользователем: ASCII-мокапы, вопросы, варианты, обсуждение
+
+**Почему роль, а не субагент:** Designer должен общаться с пользователем в формате brainstorming — задавать вопросы, показывать мокапы, обсуждать варианты. Субагент не может вести диалог.
+
+**Когда входить в роль designer:**
+- UI/UX дизайн, визуальные изменения
+- Обновление дизайн-системы (`docs/design-system.md`)
+- Брендинг, цвета, типографика, layout
+- Brainstorming визуальных решений
+- Создание UI-компонентов (дизайн-фаза)
+
+### Design System
+
+**`docs/design-system.md`** — единый источник правды по визуальному стилю проекта.
+- **Владелец:** designer (роль основного агента)
+- **Потребители:** frontend-разработчики, planning (для требований)
+- **Референсы:** `docs/research/design references/`
+- **Скилл:** `document-skills:frontend-design` (Anthropic Design Philosophy)
 
 ### Git-операции — ТОЛЬКО через DevOps
 
