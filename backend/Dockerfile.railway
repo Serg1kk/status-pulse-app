@@ -32,4 +32,4 @@ WORKDIR /app/backend/
 
 EXPOSE 8000
 
-CMD ["fastapi", "run", "--workers", "2", "app/main.py"]
+CMD ["bash", "-c", "bash scripts/prestart.sh && fastapi run --workers 2 app/main.py"]
