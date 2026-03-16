@@ -1,6 +1,6 @@
 ---
 date: 2026-03-16
-time: "03:00"
+time: "03:50"
 duration_approx: ~1h 30m
 participants: user + claude (Designer role)
 ---
