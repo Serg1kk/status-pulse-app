@@ -11,5 +11,6 @@ def create_random_incident(db: Session):
     incident_in = IncidentCreate(
         service_id=service.id,
         title=f"Incident {random_lower_string()}",
+        description=f"Description for incident {random_lower_string()}",
     )
     return crud.create_incident(session=db, incident_in=incident_in)

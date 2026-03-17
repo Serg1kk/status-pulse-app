@@ -114,12 +114,25 @@ class Incident(SQLModel, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     service_id: uuid.UUID = Field(foreign_key="service.id", ondelete="CASCADE")
     title: str = Field(max_length=500)
+    description: str = Field(max_length=2000, default="")
     status: IncidentStatus = Field(default=IncidentStatus.investigating)
     created_at: datetime = Field(
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore
     )
     resolved_at: datetime | None = Field(default=None)
+
+
+class IncidentUpdate(SQLModel, table=True):
+    __tablename__ = "incidentupdate"
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    incident_id: uuid.UUID = Field(foreign_key="incident.id", ondelete="CASCADE")
+    status: IncidentStatus
+    message: str = Field(max_length=2000)
+    created_at: datetime = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
 
 
 # --- Pydantic Schemas ---
@@ -165,21 +178,43 @@ class HealthCheckPublic(SQLModel):
 class IncidentCreate(SQLModel):
     service_id: uuid.UUID
     title: str = Field(max_length=500)
+    description: str = Field(max_length=2000)
     status: IncidentStatus = Field(default=IncidentStatus.investigating)
 
 
-class IncidentUpdate(SQLModel):
+class IncidentPatch(SQLModel):
     title: str | None = Field(default=None, max_length=500)
+    description: str | None = Field(default=None, max_length=2000)
     status: IncidentStatus | None = Field(default=None)
+
+
+class IncidentUpdateCreate(SQLModel):
+    status: IncidentStatus
+    message: str = Field(max_length=2000)
+
+
+class IncidentUpdatePublic(SQLModel):
+    id: uuid.UUID
+    incident_id: uuid.UUID
+    status: IncidentStatus
+    message: str
+    created_at: datetime
+
+
+class IncidentUpdatesPublic(SQLModel):
+    data: list[IncidentUpdatePublic]
+    count: int
 
 
 class IncidentPublic(SQLModel):
     id: uuid.UUID
     service_id: uuid.UUID
     title: str
+    description: str
     status: IncidentStatus
     created_at: datetime
     resolved_at: datetime | None
+    updates: list[IncidentUpdatePublic] = []
 
 
 class IncidentsPublic(SQLModel):

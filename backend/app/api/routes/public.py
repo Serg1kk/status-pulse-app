@@ -4,7 +4,12 @@ from fastapi import APIRouter
 
 from app import crud
 from app.api.deps import SessionDep
-from app.models import HealthCheckPublic, IncidentsPublic, ServicesPublic
+from app.models import (
+    HealthCheckPublic,
+    IncidentPublic,
+    IncidentsPublic,
+    ServicesPublic,
+)
 
 router = APIRouter(prefix="/status", tags=["public"])
 
@@ -36,4 +41,13 @@ def public_incidents(
     incidents, count = crud.get_incidents(
         session=session, skip=skip, limit=limit, active_only=active_only
     )
-    return IncidentsPublic(data=incidents, count=count)
+    # Populate updates for each incident
+    # NOTE: Pydantic models are frozen — use model_copy(update=...) to set updates
+    result = []
+    for incident in incidents:
+        updates = crud.get_incident_updates(session=session, incident_id=incident.id)
+        incident_data = IncidentPublic.model_validate(incident).model_copy(
+            update={"updates": updates}
+        )
+        result.append(incident_data)
+    return IncidentsPublic(data=result, count=count)

@@ -15,6 +15,7 @@ def test_create_incident(
     data = {
         "service_id": str(service.id),
         "title": "Database connection timeout",
+        "description": "Primary DB experiencing intermittent timeouts",
     }
     response = client.post(
         f"{settings.API_V1_STR}/incidents/",
@@ -24,9 +25,26 @@ def test_create_incident(
     assert response.status_code == 200
     content = response.json()
     assert content["title"] == data["title"]
+    assert content["description"] == data["description"]
     assert content["service_id"] == str(service.id)
     assert content["status"] == "investigating"
     assert "id" in content
+
+
+def test_create_incident_no_description(
+    client: TestClient, superuser_token_headers: dict[str, str], db: Session
+) -> None:
+    service = create_random_service(db)
+    data = {
+        "service_id": str(service.id),
+        "title": "Missing description incident",
+    }
+    response = client.post(
+        f"{settings.API_V1_STR}/incidents/",
+        headers=superuser_token_headers,
+        json=data,
+    )
+    assert response.status_code == 422  # validation error
 
 
 def test_create_incident_nonexistent_service(
@@ -35,6 +53,7 @@ def test_create_incident_nonexistent_service(
     data = {
         "service_id": str(uuid.uuid4()),
         "title": "Some incident",
+        "description": "Some description",
     }
     response = client.post(
         f"{settings.API_V1_STR}/incidents/",
@@ -50,6 +69,7 @@ def test_create_incident_unauthorized(client: TestClient) -> None:
     data = {
         "service_id": str(uuid.uuid4()),
         "title": "Unauthorized incident",
+        "description": "Some description",
     }
     response = client.post(
         f"{settings.API_V1_STR}/incidents/",
@@ -77,7 +97,7 @@ def test_update_incident(
     client: TestClient, superuser_token_headers: dict[str, str], db: Session
 ) -> None:
     incident = create_random_incident(db)
-    data = {"title": "Updated title", "status": "identified"}
+    data = {"title": "Updated title", "description": "Updated description"}
     response = client.patch(
         f"{settings.API_V1_STR}/incidents/{incident.id}",
         headers=superuser_token_headers,
@@ -86,7 +106,7 @@ def test_update_incident(
     assert response.status_code == 200
     content = response.json()
     assert content["title"] == "Updated title"
-    assert content["status"] == "identified"
+    assert content["description"] == "Updated description"
 
 
 def test_resolve_incident(

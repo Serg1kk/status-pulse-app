@@ -9,8 +9,10 @@ from app.models import (
     HealthCheck,
     Incident,
     IncidentCreate,
+    IncidentPatch,
     IncidentStatus,
     IncidentUpdate,
+    IncidentUpdateCreate,
     Service,
     ServiceCreate,
     ServiceUpdate,
@@ -156,6 +158,16 @@ def get_health_checks(
 def create_incident(*, session: Session, incident_in: IncidentCreate) -> Incident:
     db_incident = Incident.model_validate(incident_in)
     session.add(db_incident)
+    session.flush()  # get the id without committing
+
+    # Auto-create first update from incident description
+    first_update = IncidentUpdate(
+        incident_id=db_incident.id,
+        status=db_incident.status,
+        message=db_incident.description,
+        created_at=db_incident.created_at,
+    )
+    session.add(first_update)
     session.commit()
     session.refresh(db_incident)
     return db_incident
@@ -181,7 +193,7 @@ def get_incidents(
 
 
 def update_incident(
-    *, session: Session, db_incident: Incident, incident_in: IncidentUpdate
+    *, session: Session, db_incident: Incident, incident_in: IncidentPatch
 ) -> Incident:
     update_data = incident_in.model_dump(exclude_unset=True)
     if update_data.get("status") == IncidentStatus.resolved:
@@ -191,3 +203,40 @@ def update_incident(
     session.commit()
     session.refresh(db_incident)
     return db_incident
+
+
+def create_incident_update(
+    *, session: Session, incident_id: uuid.UUID, update_in: IncidentUpdateCreate
+) -> IncidentUpdate:
+    db_update = IncidentUpdate(
+        incident_id=incident_id,
+        status=update_in.status,
+        message=update_in.message,
+    )
+    session.add(db_update)
+
+    # Sync incident status
+    incident = session.get(Incident, incident_id)
+    if incident:
+        incident.status = update_in.status
+        if update_in.status == IncidentStatus.resolved:
+            incident.resolved_at = datetime.now(timezone.utc)
+        elif incident.resolved_at is not None:
+            incident.resolved_at = None  # reopen
+        session.add(incident)
+
+    session.commit()
+    session.refresh(db_update)
+    return db_update
+
+
+def get_incident_updates(
+    *, session: Session, incident_id: uuid.UUID
+) -> list[IncidentUpdate]:
+    return list(
+        session.exec(
+            select(IncidentUpdate)
+            .where(IncidentUpdate.incident_id == incident_id)
+            .order_by(IncidentUpdate.created_at.desc())  # type: ignore
+        ).all()
+    )

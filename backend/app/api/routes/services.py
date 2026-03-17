@@ -8,8 +8,8 @@ from app.models import (
     Message,
     ServiceCreate,
     ServicePublic,
-    ServiceUpdate,
     ServicesPublic,
+    ServiceUpdate,
 )
 
 router = APIRouter(prefix="/services", tags=["services"])
