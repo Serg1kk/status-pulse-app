@@ -1,11 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -35,6 +33,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import useCustomToast from "@/hooks/useCustomToast"
+import api from "@/lib/api"
 import type { ServicesPublic } from "@/types/status"
 import { handleError } from "@/utils"
 
@@ -54,7 +53,7 @@ const AddIncident = () => {
   const { data: servicesData } = useQuery<ServicesPublic>({
     queryKey: ["services"],
     queryFn: async () => {
-      const res = await axios.get("/api/v1/services/")
+      const res = await api.get("/api/v1/services/")
       return res.data
     },
   })
@@ -70,7 +69,7 @@ const AddIncident = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: FormData) => axios.post("/api/v1/incidents/", data),
+    mutationFn: (data: FormData) => api.post("/api/v1/incidents/", data),
     onSuccess: () => {
       showSuccessToast("Incident created successfully")
       form.reset()

@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import axios from "axios"
 import { Search } from "lucide-react"
-
 import { DataTable } from "@/components/Common/DataTable"
 import AddIncident from "@/components/Incidents/AddIncident"
 import { columns } from "@/components/Incidents/columns"
 import { Skeleton } from "@/components/ui/skeleton"
+import api from "@/lib/api"
 import type { IncidentsPublic } from "@/types/status"
 
 export const Route = createFileRoute("/_layout/incidents")({
@@ -24,7 +23,7 @@ function Incidents() {
   const { data, isLoading } = useQuery<IncidentsPublic>({
     queryKey: ["incidents"],
     queryFn: async () => {
-      const res = await axios.get("/api/v1/incidents/")
+      const res = await api.get("/api/v1/incidents/")
       return res.data
     },
   })

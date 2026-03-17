@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import axios from "axios"
 import { AlertTriangle, Check, Server, X } from "lucide-react"
-
 import useAuth from "@/hooks/useAuth"
+import api from "@/lib/api"
 import type { IncidentsPublic, ServicesPublic } from "@/types/status"
 
 export const Route = createFileRoute("/_layout/dashboard")({
@@ -77,7 +76,7 @@ function Dashboard() {
   const { data: servicesData } = useQuery<ServicesPublic>({
     queryKey: ["services"],
     queryFn: async () => {
-      const res = await axios.get("/api/v1/services/")
+      const res = await api.get("/api/v1/services/")
       return res.data
     },
   })
@@ -85,7 +84,7 @@ function Dashboard() {
   const { data: incidentsData } = useQuery<IncidentsPublic>({
     queryKey: ["incidents"],
     queryFn: async () => {
-      const res = await axios.get("/api/v1/incidents/")
+      const res = await api.get("/api/v1/incidents/")
       return res.data
     },
   })

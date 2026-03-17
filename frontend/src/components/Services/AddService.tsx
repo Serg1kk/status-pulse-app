@@ -1,11 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -28,6 +26,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
+import api from "@/lib/api"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
@@ -56,7 +55,7 @@ const AddService = () => {
   })
 
   const mutation = useMutation({
-    mutationFn: (data: FormData) => axios.post("/api/v1/services/", data),
+    mutationFn: (data: FormData) => api.post("/api/v1/services/", data),
     onSuccess: () => {
       showSuccessToast("Service created successfully")
       form.reset()

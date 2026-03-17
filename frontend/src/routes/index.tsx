@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import axios from "axios"
-
 import { Logo } from "@/components/Common/Logo"
 import IncidentList from "@/components/StatusPage/IncidentList"
 import OverallStatus from "@/components/StatusPage/OverallStatus"
 import ServiceList from "@/components/StatusPage/ServiceList"
 import { Skeleton } from "@/components/ui/skeleton"
+import api from "@/lib/api"
 import type { IncidentsPublic, ServicesPublic } from "@/types/status"
 
 export const Route = createFileRoute("/")({
@@ -25,7 +24,7 @@ function StatusPage() {
     useQuery<ServicesPublic>({
       queryKey: ["publicServices"],
       queryFn: async () => {
-        const res = await axios.get("/api/v1/status/services")
+        const res = await api.get("/api/v1/status/services")
         return res.data
       },
       refetchInterval: 30000,
@@ -35,7 +34,7 @@ function StatusPage() {
     useQuery<IncidentsPublic>({
       queryKey: ["publicIncidents"],
       queryFn: async () => {
-        const res = await axios.get("/api/v1/status/incidents?active_only=true")
+        const res = await api.get("/api/v1/status/incidents?active_only=true")
         return res.data
       },
       refetchInterval: 30000,
@@ -85,7 +84,10 @@ function StatusPage() {
         {/* Footer */}
         <footer className="mt-12 text-center text-sm text-muted-foreground">
           Powered by StatusPulse <span className="mx-1">·</span>{" "}
-          <Link to="/dashboard" className="hover:text-foreground transition-colors">
+          <Link
+            to="/dashboard"
+            className="hover:text-foreground transition-colors"
+          >
             Admin Login
           </Link>
         </footer>

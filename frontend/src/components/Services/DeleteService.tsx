@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
 import { Trash2 } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -17,6 +15,7 @@ import {
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
+import api from "@/lib/api"
 import { handleError } from "@/utils"
 
 interface DeleteServiceProps {
@@ -31,7 +30,7 @@ const DeleteService = ({ id, onSuccess }: DeleteServiceProps) => {
   const { handleSubmit } = useForm()
 
   const mutation = useMutation({
-    mutationFn: () => axios.delete(`/api/v1/services/${id}`),
+    mutationFn: () => api.delete(`/api/v1/services/${id}`),
     onSuccess: () => {
       showSuccessToast("Service deleted successfully")
       setIsOpen(false)

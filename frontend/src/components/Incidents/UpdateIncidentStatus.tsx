@@ -1,6 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
-
 import {
   Select,
   SelectContent,
@@ -9,6 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import useCustomToast from "@/hooks/useCustomToast"
+import api from "@/lib/api"
 import type { IncidentPublic, IncidentStatus } from "@/types/status"
 
 const STATUSES: IncidentStatus[] = [
@@ -28,7 +27,7 @@ const UpdateIncidentStatus = ({ incident }: UpdateIncidentStatusProps) => {
 
   const mutation = useMutation({
     mutationFn: (status: IncidentStatus) =>
-      axios.patch(`/api/v1/incidents/${incident.id}`, { status }),
+      api.patch(`/api/v1/incidents/${incident.id}`, { status }),
     onSuccess: () => {
       showSuccessToast("Incident status updated")
       queryClient.invalidateQueries({ queryKey: ["incidents"] })

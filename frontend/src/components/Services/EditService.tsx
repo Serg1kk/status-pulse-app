@@ -1,11 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import axios from "axios"
 import { Pencil } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -28,6 +26,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
+import api from "@/lib/api"
 import type { ServicePublic } from "@/types/status"
 import { handleError } from "@/utils"
 
@@ -63,7 +62,7 @@ const EditService = ({ service, onSuccess }: EditServiceProps) => {
 
   const mutation = useMutation({
     mutationFn: (data: FormData) =>
-      axios.patch(`/api/v1/services/${service.id}`, data),
+      api.patch(`/api/v1/services/${service.id}`, data),
     onSuccess: () => {
       showSuccessToast("Service updated successfully")
       setIsOpen(false)
