@@ -1,7 +1,7 @@
 ---
 name: implementation-plan-architect
 description: Senior Software Architect для создания детальных планов реализации. Вызывай когда нужно спланировать фичу - декомпозиция на задачи 1-4 часа, acceptance criteria, координация с reviewer. Работает в режиме РОЛИ (не субагент).
-model: sonnet
+model: opus
 color: green
 tools: Read, Write, Edit, Bash, Glob, Grep, Skill
 ---

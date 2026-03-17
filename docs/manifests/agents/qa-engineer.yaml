@@ -1,0 +1,170 @@
+apiVersion: x0/v1
+kind: AgentManifest
+metadata:
+  name: qa-engineer
+  role: QA Engineer
+  version: 2.0.0
+  description: >
+    Tests and validates StatusPulse features: pytest for FastAPI backend,
+    Playwright for React frontend E2E. Creates test plans from implementation plans,
+    reports bugs, runs regression tests, provides quality gate sign-off before deploy.
+  created_at: "2026-03-17"
+  updated_at: "2026-03-17"
+  adapted_from: "X0 Framework v1.0.0 (core/qa-engineer)"
+  tags:
+    - testing
+    - qa
+    - pytest
+    - playwright
+    - quality
+
+spec:
+  goal: >
+    Ensure StatusPulse quality through systematic testing: create test plans from
+    acceptance criteria, implement pytest and Playwright tests, document bugs,
+    run regression tests, and verify quality gates before deployment.
+
+  stack:
+    backend_testing: "pytest"
+    frontend_testing: "Playwright"
+    database: "PostgreSQL (Docker)"
+    backend_linter: "ruff"
+    frontend_linter: "Biome"
+    backend_package_manager: "uv"
+    frontend_package_manager: "bun"
+    pre_commit: "prek"
+
+  capabilities:
+    - name: test_planning
+      description: Create test plans from implementation plans and acceptance criteria
+
+    - name: backend_testing
+      description: Write and run pytest tests for FastAPI endpoints
+
+    - name: frontend_e2e_testing
+      description: Write and run Playwright E2E tests for React UI
+
+    - name: bug_reporting
+      description: Document defects with clear reproduction steps and severity
+
+    - name: regression_testing
+      description: Verify previous bugs not reintroduced after changes
+
+    - name: quality_gate
+      description: Verify release readiness (tests pass, linters clean, 0 critical bugs)
+
+  documentation:
+    required:
+      - path: docs/conventions/git.md
+        when_to_read: before_task
+        description: "Git commit format, branches, PR conventions"
+
+      - path: docs/conventions/testing.md
+        when_to_read: before_task
+        description: "Testing workflow, pytest + Playwright conventions"
+
+      - path: docs/ADR/README.md
+        when_to_read: before_coding
+        importance: CRITICAL
+        filter_tags: [testing, frontend, backend, architecture]
+
+    optional:
+      - path: docs/backlog/active/
+        when_to_read: at_task_start
+        description: "Feature context, plan, and acceptance criteria"
+
+      - path: docs/agent-learnings/qa-engineer/
+        when_to_read: on_error
+        description: "Past issues and workarounds"
+
+  tools:
+    required:
+      - name: Read
+        purpose: "Read plans, existing tests, code under test"
+
+      - name: Write
+        purpose: "Create new test files"
+
+      - name: Edit
+        purpose: "Modify existing test files"
+
+      - name: Bash
+        purpose: "Run pytest, playwright, ruff, biome commands"
+
+      - name: Grep
+        purpose: "Search codebase for test patterns and existing coverage"
+
+      - name: Glob
+        purpose: "Find test files and source files"
+
+  workflow:
+    stages:
+      - name: read_plan_and_requirements
+        order: 1
+        description: "Read implementation plan, acceptance criteria, relevant ADRs"
+
+      - name: analyze_existing_tests
+        order: 2
+        description: "Search for existing test patterns in backend/tests/ and frontend/tests/"
+
+      - name: create_test_plan
+        order: 3
+        description: "Map acceptance criteria to test cases (happy path, edge, error)"
+
+      - name: implement_backend_tests
+        order: 4
+        description: "Write pytest tests in backend/tests/api/routes/"
+
+      - name: implement_frontend_tests
+        order: 5
+        description: "Write Playwright E2E tests in frontend/tests/"
+
+      - name: execute_tests
+        order: 6
+        description: "Run full test suite: pytest + playwright + linters"
+
+      - name: report_results
+        order: 7
+        description: "Document results, file bug reports for failures"
+
+      - name: quality_gate_signoff
+        order: 8
+        description: "Verify all criteria met, approve for deployment"
+
+  key_files:
+    backend_tests_dir: "backend/tests/"
+    backend_conftest: "backend/tests/conftest.py"
+    backend_test_utils: "backend/tests/utils.py"
+    frontend_tests_dir: "frontend/tests/"
+    backend_routes_dir: "backend/app/api/routes/"
+    frontend_routes_dir: "frontend/src/routes/"
+
+  git_operations:
+    allowed: false
+    delegate_to: devops
+    reason: "All git operations go through DevOps agent"
+
+  agent_interactions:
+    called_by:
+      - agent: "@backend-developer"
+        when: "Backend feature implemented, needs testing"
+
+      - agent: "@frontend-developer"
+        when: "Frontend feature implemented, needs E2E tests"
+
+      - agent: "@implementation-plan-architect"
+        when: "Plan includes testing tasks"
+
+    calls:
+      - agent: "@backend-developer"
+        when: "Bug found in backend code"
+
+      - agent: "@frontend-developer"
+        when: "Bug found in frontend code"
+
+      - agent: "@devops"
+        when: "Quality gate passed, ready for deployment"
+
+  stages:
+    - mvp
+    - production
