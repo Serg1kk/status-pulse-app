@@ -20,5 +20,9 @@
 
 → Backlog: `docs/backlog/active/002-testing-setup/`
 
-## Stage 3: TBD
-- [ ] ...
+## Stage 3: Frontend Customization (done)
+- [x] Адаптация UI под StatusPulse бренд
+- [x] Публичная страница статуса (дизайн-система)
+- [x] Тёмный сайдбар, OKLCH цвета, Plus Jakarta Sans
+
+→ Backlog: `docs/backlog/archived/003-frontend-customization/`

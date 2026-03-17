@@ -138,3 +138,4 @@
 | 2026-03-16 | CLAUDE.md | Обновлена секция Subagents: frontend-developer + backend-developer добавлены в таблицу, правила вызова, docs structure |
 | 2026-03-16 | Git commit | feat(infra): add Frontend Developer and Backend Developer agents (e93983e) — 2 субагента из X0 Framework, манифесты, CLAUDE.md update, session history |
 | 2026-03-16 | Git commit | docs(agents): add Dependencies & Parallelism to implementation plan agents (77d41f6) — architect: Dependencies & Parallelism секция (Depends on / Parallel + dependency graph); reviewer: Quality Gates + Red Flags для зависимостей; manifest: Task Breakdown Rules обновлены |
+| 2026-03-17 | archived | 003-frontend-customization feature completed and deployed — moved from active to archived, roadmap updated |
