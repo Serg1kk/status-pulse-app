@@ -8,6 +8,16 @@ Full-stack web app based on the FastAPI template. Python/FastAPI backend + React
 
 ## Custom Commands
 
+### `/work-on-feature` — Полный цикл работы над фичей
+Запускает пайплайн от brainstorm до деплоя: дизайн → план → ревью → реализация (BE+FE параллельно) → QA → деплой → архивация.
+
+```
+/work-on-feature docs/backlog/active/NNN-feature-name/
+```
+
+Фича должна содержать как минимум `readme.md`. Скилл читает все файлы в папке для контекста.
+Полная логика: `.claude/commands/work-on-feature.md`
+
 ### `/save-session` — Сохранить историю сессии
 Создаёт детальную выжимку текущего чата в `session-history/YYYY-MM-DD_HH-MM_slug.md`.
 Вызывай в конце сессии перед переходом в новый чат.
@@ -175,6 +185,8 @@ docs/
 │       ├── devops.yaml              ← Метаданные DevOps
 │       ├── designer.md              ← Детальный воркфлоу Designer
 │       ├── designer.yaml            ← Метаданные Designer
+│       ├── qa-engineer.md                    ← Воркфлоу QA Engineer
+│       ├── qa-engineer.yaml                  ← Метаданные QA Engineer
 │       ├── implementation-plan-architect.md  ← Воркфлоу архитектора планов
 │       ├── implementation-plan-architect.yaml
 │       ├── implementation-plan-reviewer.md   ← Воркфлоу ревьюера планов
@@ -275,6 +287,7 @@ mv docs/backlog/active/NNN-feature/ docs/backlog/archived/
 | **devops** | `.claude/agents/devops.md` | Субагент (Agent tool) | Деплой, инфраструктура, CI/CD, Railway, Vercel |
 | **designer** | `.claude/agents/designer.md` | **Роль** (основной агент) | UI/UX, брендинг, дизайн-система, brainstorming визуала |
 | **implementation-plan-architect** | `.claude/agents/implementation-plan-architect.md` | **Роль** (основной агент) | Планирование фичей, декомпозиция на задачи 1-4h |
+| **qa-engineer** | `.claude/agents/qa-engineer.md` | Субагент (Agent tool) | Тестирование, quality gate, pytest + Playwright, баг-репорты |
 | **implementation-plan-reviewer** | `.claude/agents/implementation-plan-reviewer.md` | Субагент (Agent tool) | Ревью готовых планов, quality gate |
 
 ### Правило вызова
@@ -286,6 +299,8 @@ mv docs/backlog/active/NNN-feature/ docs/backlog/archived/
 - Настройка переменных окружения → `devops` (Agent tool, субагент)
 - CI/CD, GitHub Actions → `devops` (Agent tool, субагент)
 - Мониторинг, домены → `devops` (Agent tool, субагент)
+- Тестирование после реализации фичи → `qa-engineer` (Agent tool, субагент)
+- Quality gate перед деплоем → `qa-engineer` (Agent tool, субагент)
 - Ревью готового плана → `implementation-plan-reviewer` (Agent tool, субагент)
 
 **Роли (основной агент входит в роль)** — для задач требующих интерактивного диалога с пользователем:
@@ -326,6 +341,26 @@ mv docs/backlog/active/NNN-feature/ docs/backlog/archived/
 - Новые API endpoints, модели, миграции
 - Backend тесты (pytest)
 - Исправление backend-багов
+
+### QA Engineer — субагент
+
+**Вызывается через Agent tool** для тестирования и обеспечения качества:
+
+- pytest тесты для FastAPI backend
+- Playwright E2E тесты для React frontend
+- Playwright MCP для интерактивного browser testing
+- Bug reporting с шагами воспроизведения
+- Regression testing
+- Quality gate sign-off перед деплоем
+
+**MCP доступ:** Playwright MCP (`@playwright/mcp`) — browser automation через accessibility snapshots.
+
+**Когда вызывать:**
+- После реализации фичи (backend или frontend) — верификация
+- Написание/обновление тестов
+- Quality gate check перед деплоем
+- Regression testing после багфиксов
+- Exploratory testing новых UI-фич через Playwright MCP
 
 ### Designer — режим РОЛИ (не субагент!)
 
