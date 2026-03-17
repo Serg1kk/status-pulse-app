@@ -133,7 +133,10 @@ function Login() {
 
       <div className="mt-4 flex flex-col items-center gap-2">
         <Appearance />
-        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+        <Link
+          to="/"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
           ← Back to Status Page
         </Link>
       </div>

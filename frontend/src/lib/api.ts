@@ -12,4 +12,15 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if ([401, 403].includes(error?.response?.status)) {
+      localStorage.removeItem("access_token")
+      window.location.href = "/login"
+    }
+    return Promise.reject(error)
+  },
+)
+
 export default api

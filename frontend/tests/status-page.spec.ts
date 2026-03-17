@@ -31,9 +31,7 @@ test("Admin Login link navigates to login", async ({ page }) => {
   await page.waitForURL(/\/(login|dashboard)/)
 })
 
-test("Status page is accessible without authentication", async ({
-  page,
-}) => {
+test("Status page is accessible without authentication", async ({ page }) => {
   await page.goto("/")
   await expect(page).toHaveURL("/")
 })
