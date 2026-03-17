@@ -141,3 +141,4 @@
 | 2026-03-17 | archived | 003-frontend-customization feature completed and deployed — moved from active to archived, roadmap updated |
 | 2026-03-17 | test | 002-testing-setup: migrate testing from Items to Services/Incidents/HealthChecks — 23 new backend tests, E2E for services + status page, deleted obsolete tests, CI coverage threshold 90%→70% |
 | 2026-03-17 | fix | fix(frontend): shared API client with auth and Vite proxy — frontend/src/lib/api.ts (Axios + JWT), /api dev proxy in vite.config.ts, all admin components updated; backlog 007-fix-admin-api-calls added; commit 30f9860 |
+| 2026-03-17 | archived | 007-fix-admin-api-calls moved to archived (admin 401 interceptor fix) |
