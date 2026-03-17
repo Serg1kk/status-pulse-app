@@ -104,6 +104,7 @@
 | Команда | Файл | Назначение |
 |---------|------|-----------|
 | `/save-session` | `.claude/commands/save-session.md` | Выжимка текущей сессии |
+| `/work-on-feature` | `.claude/commands/work-on-feature.md` | Полный цикл разработки фичи: brainstorm → plan → implement → deploy → archive |
 
 ---
 
@@ -154,3 +155,5 @@
 | 2026-03-17 | Agent added | QA Engineer из X0 Framework (адаптирован). Субагент: pytest + Playwright + Playwright MCP. Промпт + манифесты |
 | 2026-03-17 | CLAUDE.md | Обновлена секция Subagents: qa-engineer добавлен в таблицу, правила вызова, docs structure |
 | 2026-03-17 | feat | 004-incident-descriptions: description field + IncidentUpdate model + admin expand row + public accordion — deployed to Railway + Vercel |
+| 2026-03-17 | docs | archive 004-incident-descriptions to backlog/archived — feature complete and deployed |
+| 2026-03-17 | feat | add work-on-feature skill: full-cycle pipeline (brainstorm → deploy → archive) |
