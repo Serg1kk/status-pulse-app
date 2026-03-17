@@ -1,10 +1,26 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import {
+  flexRender,
+  getCoreRowModel,
+  getExpandedRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
 import { Search } from "lucide-react"
-import { DataTable } from "@/components/Common/DataTable"
+import { Fragment } from "react"
 import AddIncident from "@/components/Incidents/AddIncident"
 import { columns } from "@/components/Incidents/columns"
+import IncidentExpandRow from "@/components/Incidents/IncidentExpandRow"
 import { Skeleton } from "@/components/ui/skeleton"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import api from "@/lib/api"
 import type { IncidentsPublic } from "@/types/status"
 
@@ -26,6 +42,15 @@ function Incidents() {
       const res = await api.get("/api/v1/incidents/")
       return res.data
     },
+  })
+
+  const table = useReactTable({
+    data: data?.data ?? [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getRowCanExpand: () => true,
   })
 
   return (
@@ -51,7 +76,50 @@ function Incidents() {
           </p>
         </div>
       ) : (
-        <DataTable columns={columns} data={data?.data ?? []} />
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id} className="hover:bg-transparent">
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows.map((row) => (
+              <Fragment key={row.id}>
+                <TableRow
+                  className="cursor-pointer"
+                  onClick={row.getToggleExpandedHandler()}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+                {row.getIsExpanded() && (
+                  <TableRow>
+                    <TableCell colSpan={columns.length} className="p-0">
+                      <IncidentExpandRow incident={row.original} />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </Fragment>
+            ))}
+          </TableBody>
+        </Table>
       )}
     </div>
   )

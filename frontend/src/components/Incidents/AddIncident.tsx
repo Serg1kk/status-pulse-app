@@ -32,6 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 import useCustomToast from "@/hooks/useCustomToast"
 import api from "@/lib/api"
 import type { ServicesPublic } from "@/types/status"
@@ -40,6 +41,7 @@ import { handleError } from "@/utils"
 const formSchema = z.object({
   service_id: z.string().uuid({ message: "Select a service" }),
   title: z.string().min(1, { message: "Title is required" }),
+  description: z.string().min(1, { message: "Description is required" }),
   status: z.enum(["investigating", "identified", "monitoring", "resolved"]),
 })
 
@@ -64,6 +66,7 @@ const AddIncident = () => {
     defaultValues: {
       service_id: "",
       title: "",
+      description: "",
       status: "investigating",
     },
   })
@@ -143,6 +146,26 @@ const AddIncident = () => {
                     <FormControl>
                       <Input
                         placeholder="Service is experiencing issues"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Description <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Describe the incident..."
+                        className="resize-none"
+                        rows={3}
                         {...field}
                       />
                     </FormControl>

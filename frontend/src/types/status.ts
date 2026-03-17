@@ -30,13 +30,23 @@ export interface HealthCheckPublic {
   checked_at: string
 }
 
+export interface IncidentUpdatePublic {
+  id: string
+  incident_id: string
+  status: IncidentStatus
+  message: string
+  created_at: string
+}
+
 export interface IncidentPublic {
   id: string
   service_id: string
   title: string
+  description: string
   status: IncidentStatus
   created_at: string
   resolved_at: string | null
+  updates: IncidentUpdatePublic[]
 }
 
 export interface IncidentsPublic {

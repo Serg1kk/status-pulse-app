@@ -1,8 +1,8 @@
 import type { ColumnDef } from "@tanstack/react-table"
+import { ChevronDown, ChevronRight } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import type { IncidentPublic, IncidentStatus } from "@/types/status"
-import UpdateIncidentStatus from "./UpdateIncidentStatus"
 
 const STATUS_VARIANT: Record<
   IncidentStatus,
@@ -19,6 +19,27 @@ function formatDate(dateStr: string): string {
 }
 
 export const columns: ColumnDef<IncidentPublic>[] = [
+  {
+    id: "expand",
+    header: "",
+    cell: ({ row }) => {
+      const isExpanded = row.getIsExpanded()
+      return (
+        <button
+          type="button"
+          onClick={row.getToggleExpandedHandler()}
+          className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+        >
+          {isExpanded ? (
+            <ChevronDown className="h-4 w-4" />
+          ) : (
+            <ChevronRight className="h-4 w-4" />
+          )}
+        </button>
+      )
+    },
+    size: 40,
+  },
   {
     accessorKey: "title",
     header: "Title",
@@ -42,10 +63,5 @@ export const columns: ColumnDef<IncidentPublic>[] = [
         {formatDate(row.original.created_at)}
       </span>
     ),
-  },
-  {
-    id: "actions",
-    header: "Update Status",
-    cell: ({ row }) => <UpdateIncidentStatus incident={row.original} />,
   },
 ]
