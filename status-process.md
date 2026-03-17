@@ -139,3 +139,4 @@
 | 2026-03-16 | Git commit | feat(infra): add Frontend Developer and Backend Developer agents (e93983e) — 2 субагента из X0 Framework, манифесты, CLAUDE.md update, session history |
 | 2026-03-16 | Git commit | docs(agents): add Dependencies & Parallelism to implementation plan agents (77d41f6) — architect: Dependencies & Parallelism секция (Depends on / Parallel + dependency graph); reviewer: Quality Gates + Red Flags для зависимостей; manifest: Task Breakdown Rules обновлены |
 | 2026-03-17 | archived | 003-frontend-customization feature completed and deployed — moved from active to archived, roadmap updated |
+| 2026-03-17 | test | 002-testing-setup: migrate testing from Items to Services/Incidents/HealthChecks — 23 new backend tests, E2E for services + status page, deleted obsolete tests, CI coverage threshold 90%→70% |
